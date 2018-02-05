@@ -16,15 +16,15 @@
                            handler:(void (^)(UITableViewRowAction *action, NSIndexPath *indexPath))handler
 {
 //    if (iOS9AndLater) {
-//        SOTableViewRowAction *action = [super rowActionWithStyle:style title:@"          " handler:handler];
-////        action.customTitle = title;
+//        SOTableViewRowAction *action = [super rowActionWithStyle:style title:@"              " handler:handler];
+//        action.customTitle = title;
 //        action.icon = icon;
 //        action.color = color;
 //        return action;
 //    }
 //    else
 //    {
-        SOTableViewRowAction *action = [super rowActionWithStyle:style title:@"          " handler:handler];
+        SOTableViewRowAction *action = [super rowActionWithStyle:style title:@"" handler:handler];
         [action setBackgroundColor:[UIColor colorWithPatternImage:icon]];
         return action;
 //    }

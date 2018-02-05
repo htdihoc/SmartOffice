@@ -23,9 +23,6 @@ typedef NS_ENUM(NSInteger, Status) {
 
 @property (weak, nonatomic) IBOutlet UITableView *propertyDetailsTableView;
 @property (weak, nonatomic) IBOutlet UIButton *btnCancelOrConfirm;
-@property (weak, nonatomic) IBOutlet UIButton *btnCancel;
-@property (weak, nonatomic) IBOutlet UIButton *btnConfirm;
-
 @property (nonatomic) Status status;
 
 @end
@@ -34,22 +31,6 @@ typedef NS_ENUM(NSInteger, Status) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    if (self.typeKTTS == 1) {
-        self.btnCancelOrConfirm.hidden = NO;
-        self.btnCancel.hidden = NO;
-        self.btnConfirm.hidden = NO;
-        self.hightBtnCancelOrConfirm.constant = 50;
-        self.hightBtnCancel.constant = 50;
-        self.hightBtnConfirm.constant = 50;
-    } else {
-        self.btnCancelOrConfirm.hidden = YES;
-        self.btnCancel.hidden = YES;
-        self.btnConfirm.hidden = YES;
-        self.hightBtnCancelOrConfirm.constant = 0;
-        self.hightBtnCancel.constant = 0;
-        self.hightBtnConfirm.constant = 0;
-    }
     
     switch (self.isColorButton) {
         case isCancelStatus: {
@@ -133,7 +114,7 @@ typedef NS_ENUM(NSInteger, Status) {
     
     MZFormSheetController *formSheet = [[MZFormSheetController alloc] initWithViewController:vc];
     
-    formSheet.presentedFormSheetSize = CGSizeMake(SCREEN_HEIGHT_LANDSCAPE-40, 200);
+    formSheet.presentedFormSheetSize = CGSizeMake(SCREEN_HEIGHT_LANDSCAPE-40, SCREEN_HEIGHT_LANDSCAPE-200);
     //    formSheet.transitionStyle = MZFormSheetTransitionStyleSlideFromTop;
     formSheet.shadowRadius = 2.0;
     formSheet.shadowOpacity = 0.3;

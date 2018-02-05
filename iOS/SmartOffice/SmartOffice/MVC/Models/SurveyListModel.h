@@ -14,8 +14,8 @@
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *code;
 @property (strong, nonatomic) NSString *content;
-@property (assign, nonatomic) long startDate;
-@property (assign, nonatomic) long endDate;
+@property (assign, nonatomic) NSInteger startDate;
+@property (assign, nonatomic) NSInteger endDate;
 @property (strong, nonatomic) NSString *url;
 @property (nonatomic) BOOL isRequireLogin;
 @property (nonatomic) BOOL status;

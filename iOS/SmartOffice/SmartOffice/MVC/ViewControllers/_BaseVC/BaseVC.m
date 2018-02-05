@@ -36,7 +36,7 @@
 
 - (void)initBase {
     [self.navigationController.navigationBar setHidden:YES];
-//    self.view.backgroundColor = AppColor_MainAppBackgroundColor;
+    self.view.backgroundColor = AppColor_MainAppBackgroundColor;
     [self.navigationController.navigationBar setBarTintColor:AppColor_MainAppTintColor];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     /*self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Left"

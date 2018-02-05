@@ -28,10 +28,5 @@
 @property (strong, nonatomic) NSString *value_status;
 @property (assign, nonatomic) NSInteger merEntityId;
 @property (assign, nonatomic) NSInteger count;
-@property (assign, nonatomic) NSInteger typeKTTS;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hightBtnCancelOrConfirm;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hightBtnCancel;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *hightBtnConfirm;
 
 @end

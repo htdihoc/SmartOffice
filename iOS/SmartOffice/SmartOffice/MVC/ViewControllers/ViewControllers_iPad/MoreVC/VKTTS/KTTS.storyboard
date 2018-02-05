@@ -1,19 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="ipad9_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue-Medium</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="aWp-Bi-6B4">
@@ -106,12 +101,9 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ndw-pn-9Lo">
                                         <rect key="frame" x="0.0" y="130" width="497" height="564"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Không tìm thấy kết quả" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lob-eR-0f3">
-                                                <rect key="frame" x="20" y="261.5" width="457" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="agg-Dl-lsi"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Không tìm thấy kết quả" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lob-eR-0f3">
+                                                <rect key="frame" x="160" y="271" width="176.5" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -129,8 +121,6 @@
                                         <constraints>
                                             <constraint firstItem="Jov-kJ-xSu" firstAttribute="leading" secondItem="ndw-pn-9Lo" secondAttribute="leading" id="49e-1e-DZD"/>
                                             <constraint firstItem="Jov-kJ-xSu" firstAttribute="top" secondItem="ndw-pn-9Lo" secondAttribute="top" id="8OQ-2N-Ngw"/>
-                                            <constraint firstItem="Lob-eR-0f3" firstAttribute="leading" secondItem="ndw-pn-9Lo" secondAttribute="leading" constant="20" id="FQ8-qP-K7h"/>
-                                            <constraint firstAttribute="trailing" secondItem="Lob-eR-0f3" secondAttribute="trailing" constant="20" id="P4m-3d-F9s"/>
                                             <constraint firstItem="Lob-eR-0f3" firstAttribute="centerX" secondItem="ndw-pn-9Lo" secondAttribute="centerX" id="Tzm-6s-HEb"/>
                                             <constraint firstItem="Lob-eR-0f3" firstAttribute="centerY" secondItem="ndw-pn-9Lo" secondAttribute="centerY" id="V25-40-HXz"/>
                                             <constraint firstAttribute="bottom" secondItem="Jov-kJ-xSu" secondAttribute="bottom" id="yJJ-5v-7tk"/>
@@ -190,11 +180,8 @@
                                         <rect key="frame" x="0.0" y="40" width="497" height="654"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Không tìm thấy kết quả" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yw6-fv-K2q">
-                                                <rect key="frame" x="20" y="307" width="457" height="40"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="IHT-QU-jvm"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <rect key="frame" x="160" y="316" width="176.5" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -249,8 +236,6 @@
                                             <constraint firstAttribute="bottom" secondItem="Y25-hc-ocE" secondAttribute="bottom" id="FSI-Lt-0Gn"/>
                                             <constraint firstItem="gGY-aK-7HR" firstAttribute="top" secondItem="QvW-HG-iVH" secondAttribute="top" id="GDW-R8-ymR"/>
                                             <constraint firstItem="Yw6-fv-K2q" firstAttribute="centerX" secondItem="QvW-HG-iVH" secondAttribute="centerX" id="QYQ-QU-z16"/>
-                                            <constraint firstItem="Yw6-fv-K2q" firstAttribute="leading" secondItem="QvW-HG-iVH" secondAttribute="leading" constant="20" id="RXM-Gs-c9H"/>
-                                            <constraint firstAttribute="trailing" secondItem="Yw6-fv-K2q" secondAttribute="trailing" constant="20" id="SXO-fI-51W"/>
                                             <constraint firstItem="Yw6-fv-K2q" firstAttribute="centerY" secondItem="QvW-HG-iVH" secondAttribute="centerY" id="bAW-L2-51p"/>
                                             <constraint firstAttribute="trailing" secondItem="gGY-aK-7HR" secondAttribute="trailing" id="fuc-hA-tj5"/>
                                         </constraints>
@@ -294,8 +279,6 @@
                         <outlet property="filterButton" destination="MyA-nL-WPH" id="MfA-s7-g3s"/>
                         <outlet property="kttsTableView" destination="Jov-kJ-xSu" id="dM2-w3-ddl"/>
                         <outlet property="kttsView" destination="ndw-pn-9Lo" id="EdE-UT-qkt"/>
-                        <outlet property="noDataBBBGLabel" destination="Yw6-fv-K2q" id="avT-bR-d3h"/>
-                        <outlet property="noDataKTTSLabel" destination="Lob-eR-0f3" id="vgT-LL-fhy"/>
                         <outlet property="reasonLabel" destination="GVi-LT-AVz" id="vwb-2G-6rz"/>
                         <outlet property="reasonView" destination="gGY-aK-7HR" id="Dj1-cL-obv"/>
                         <outlet property="reason_height_constraint" destination="9a6-MF-p1Y" id="JcR-W5-Tci"/>

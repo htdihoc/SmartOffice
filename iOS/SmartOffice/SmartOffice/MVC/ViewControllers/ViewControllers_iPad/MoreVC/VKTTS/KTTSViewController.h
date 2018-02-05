@@ -33,8 +33,4 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *filterButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchview_detail_constraint;
-
-@property (weak, nonatomic) IBOutlet UILabel *noDataKTTSLabel;
-@property (weak, nonatomic) IBOutlet UILabel *noDataBBBGLabel;
-
 @end

@@ -35,14 +35,11 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentview;
 @property (nonatomic) int switchScreen;
 @property (strong, nonatomic) NSMutableArray *TTTS_data_array, *BBBG_data_array;
-@property (strong, nonatomic) NSMutableArray *dataBBBGArr;
-@property (strong, nonatomic) NSArray *filterDataBBBGArr;
 @property (strong, nonatomic) NSMutableArray *data_TTTS, *data_BBBG;
 @property (assign, nonatomic) NSInteger countTTTS, countBBBG;
 @property (nonatomic) bool isloadmoreTTTS, isloadmoreBBBG;
 @property (assign, nonatomic) NSInteger startTTTS, startBBBG, limit;
 @property (strong, nonatomic) NSArray *data_FilterTTTS, *data_FilterBBBG;
-@property (strong, nonatomic) NSMutableArray *data_TTTS_First, *data_BBBG_First;
 @property (nonatomic) BOOL isFiltered;
 
 @end
@@ -66,15 +63,12 @@
     self.label_Badge.clipsToBounds = YES;
     self.label_Badge.layer.cornerRadius = 8;
     
-    self.dataBBBGArr = [NSMutableArray new];
     self.TTTS_data_array = [NSMutableArray new];
     self.BBBG_data_array = [NSMutableArray new];
     self.data_TTTS = [NSMutableArray new];
     self.data_BBBG = [NSMutableArray new];
     self.data_FilterTTTS = [NSArray new];
     self.data_FilterBBBG = [NSArray new];
-    self.data_TTTS_First = [NSMutableArray new];
-    self.data_BBBG_First = [NSMutableArray new];
     self.infoAssetsTableView.estimatedRowHeight = 190;
     self.infoAssetsTableView.rowHeight = UITableViewAutomaticDimension;
     self.bbbgAssetsTableView.estimatedRowHeight = 190;
@@ -88,27 +82,6 @@
     [[Common shareInstance] showCustomHudInView:self.view];
     [self reloadAllData];
     
-    NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
-                                @"start": IntToString(self.startBBBG),
-                                @"keyword": self.searchview.text,
-                                @"limit": IntToString(1000)
-                                };
-    [KTTSProcessor postKTTS_BBBG:parameter handle:^(id result, NSString *error) {
-        NSArray *array = result[@"listMinuteHandOver"];
-
-        [self.dataBBBGArr addObjectsFromArray:array];
-        NSPredicate *p = [NSPredicate predicateWithFormat:@"status = %d", 0];
-        self.filterDataBBBGArr = [self.dataBBBGArr filteredArrayUsingPredicate:p];
-        self.label_Badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.filterDataBBBGArr.count];
-        if(self.filterDataBBBGArr.count == 0){
-            self.label_Badge.hidden = YES;
-        }else {
-            self.label_Badge.hidden = NO;
-        }
-    } onError:^(NSString *Error) {
-    } onException:^(NSString *Exception) {
-    }];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -170,12 +143,7 @@
                 [self.infoAssetsTableView reloadData];
                 [self.bbbgAssetsTableView reloadData];
                 self.total_record.text = IntToString(self.countTTTS);
-
-                if (self.countTTTS > 0) {
-                    self.noResultLabel.hidden = YES;
-                }else{
-                    self.noResultLabel.hidden = NO;
-                }
+                self.noResultLabel.hidden = NO;
             } else {
                 _isFiltered = YES;
                 NSPredicate *p = [NSPredicate predicateWithFormat:@"catMerName CONTAINS[cd] %@ or serialNumber CONTAINS[cd] %@ or privateManagerName CONTAINS[cd] %@", searchText, searchText, searchText];
@@ -183,12 +151,6 @@
                 [self.infoAssetsTableView reloadData];
                 [self.bbbgAssetsTableView reloadData];
                 self.total_record.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.data_FilterTTTS.count];
-
-                if (self.data_FilterTTTS.count > 0) {
-                    self.noResultLabel.hidden = YES;
-                }else{
-                    self.noResultLabel.hidden = NO;
-                }
             }
         }
             break;
@@ -199,11 +161,7 @@
                 [self.infoAssetsTableView reloadData];
                 [self.bbbgAssetsTableView reloadData];
                 self.total_record.text = IntToString(self.countBBBG);
-                if (self.countBBBG > 0) {
-                    self.noResultLabel.hidden = YES;
-                }else{
-                    self.noResultLabel.hidden = NO;
-                }
+                self.noResultLabel.hidden = NO;
             } else {
                 _isFiltered = YES;
                 NSPredicate *p = [NSPredicate predicateWithFormat:@"minuteHandOverCode CONTAINS[cd] %@ or employeeMinuteHandOVerName CONTAINS[cd] %@", searchText, searchText];
@@ -211,11 +169,6 @@
                 [self.infoAssetsTableView reloadData];
                 [self.bbbgAssetsTableView reloadData];
                 self.total_record.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.data_FilterBBBG.count];
-                if (self.data_FilterBBBG.count > 0) {
-                    self.noResultLabel.hidden = YES;
-                }else{
-                    self.noResultLabel.hidden = NO;
-                }
             }
         }
         default:
@@ -224,40 +177,12 @@
 }
 
 - (void) filterStatus:(NSString *)status {
-
-        [self.BBBG_data_array removeAllObjects];
-        NSDictionary *parameter = @{
-                                    @"employeeId": @"102026",
-                                    @"start": IntToString(self.startBBBG),
-                                    @"keyword": self.searchview.text,
-                                    @"limit": IntToString(1000)
-                                    };
-        [KTTSProcessor postKTTS_BBBG:parameter handle:^(id result, NSString *error) {
-            [[Common shareInstance] dismissCustomHUD];
-            NSArray *array = result[@"listMinuteHandOver"];
-
-            [self.BBBG_data_array addObjectsFromArray:array];
-
-            //Filler
-            _isFiltered = YES;
-            NSPredicate *p = [NSPredicate predicateWithFormat:@"status = %d", status.integerValue];
-            self.data_FilterBBBG = [self.BBBG_data_array filteredArrayUsingPredicate:p];
-            [self.infoAssetsTableView reloadData];
-            [self.bbbgAssetsTableView reloadData];
-            self.total_record.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.data_FilterBBBG.count];
-            if (self.data_FilterBBBG.count > 0) {
-                self.noResultLabel.hidden = YES;
-            }else{
-                self.noResultLabel.hidden = NO;
-            }
-            
-            [self.bbbgAssetsTableView reloadData];
-        } onError:^(NSString *Error) {
-            [self errorServerTTTS];
-        } onException:^(NSString *Exception) {
-            [self donotInternet];
-        }];
-    
+    _isFiltered = YES;
+    NSPredicate *p = [NSPredicate predicateWithFormat:@"status = %d", status.integerValue];
+    self.data_FilterBBBG = [self.BBBG_data_array filteredArrayUsingPredicate:p];
+    [self.infoAssetsTableView reloadData];
+    [self.bbbgAssetsTableView reloadData];
+    self.total_record.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.data_FilterBBBG.count];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -390,7 +315,7 @@
 - (void) countDataTTTS {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"type": @"1"
                                 };
     [KTTSProcessor postCountDataTTTS:parameter handle:^(id result, NSString *error) {
@@ -408,7 +333,7 @@
 - (void) countDataBBBG {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"type": @"2"
                                 };
     [KTTSProcessor postCountDataTTTS:parameter handle:^(id result, NSString *error) {
@@ -426,7 +351,7 @@
 - (void) getDataTTTS {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"start": IntToString(self.startTTTS),
                                 @"keyword": self.searchview.searchBar.text,
                                 @"limit": IntToString(self.limit)
@@ -434,24 +359,10 @@
     [KTTSProcessor postKTTS_THONG_TIN_TAI_SAN:parameter handle:^(id result, NSString *error) {
         [[Common shareInstance] dismissCustomHUD];
         NSArray *array = result[@"listMerEntity"];
-        if (self.data_TTTS_First.count == 0) {
-            [self.data_TTTS_First addObjectsFromArray:array];
-            [self.TTTS_data_array addObjectsFromArray:array];
-        }else{
-            if ([self.data_TTTS_First isEqualToArray:array]) {
-                
-            }else{
-                [self.TTTS_data_array addObjectsFromArray:array];
-            }
-        }
-
+//        self.TTTS_data_array = [PropertyInfoModel arrayOfModelsFromDictionaries:array error:nil];
+        [self.TTTS_data_array addObjectsFromArray:array];
         if (self.switchScreen == 0) {
             self.total_record.text = IntToString(self.countTTTS);
-            if (self.countTTTS > 0) {
-                self.noResultLabel.hidden = YES;
-            } else {
-                self.noResultLabel.hidden = NO;
-            }
         }
         [self.infoAssetsTableView reloadData];
     } onError:^(NSString *Error) {
@@ -464,7 +375,7 @@
 - (void) getDataBBBG {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"start": IntToString(self.startBBBG),
                                 @"keyword": self.searchview.text,
                                 @"limit": IntToString(self.limit)
@@ -472,25 +383,16 @@
     [KTTSProcessor postKTTS_BBBG:parameter handle:^(id result, NSString *error) {
         [[Common shareInstance] dismissCustomHUD];
         NSArray *array = result[@"listMinuteHandOver"];
-
-        if (self.data_BBBG_First.count == 0) {
-            [self.data_BBBG_First addObjectsFromArray:array];
+//        [self.BBBG_data_array addObjectsFromArray:array];
+//        if ([self.BBBG_data_array count] > 0) {
+//            self.BBBG_data_array = [BBBGAssetModel arrayOfModelsFromDictionaries:array error:nil];
+//        }else {
             [self.BBBG_data_array addObjectsFromArray:array];
-        }else{
-            if ([self.data_BBBG_First isEqualToArray:array]) {
-                
-            }else{
-                [self.BBBG_data_array addObjectsFromArray:array];
-            }
-        }
+            
+//        }
         
         if (self.switchScreen == 1) {
             self.total_record.text = IntToString(self.countBBBG);
-            if (self.countBBBG > 0) {
-                self.noResultLabel.hidden = YES;
-            } else {
-                self.noResultLabel.hidden = NO;
-            }
         }
         [self.bbbgAssetsTableView reloadData];
     } onError:^(NSString *Error) {
@@ -505,13 +407,13 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (tableView == self.infoAssetsTableView) {
+    if (self.switchScreen == 0) {
         if (_isFiltered) {
             return self.data_FilterTTTS.count;
         } else {
             return self.TTTS_data_array.count;
         }
-    } else if (tableView == self.bbbgAssetsTableView) {
+    } else if (self.switchScreen == 1) {
         if (_isFiltered) {
             return self.data_FilterBBBG.count;
         } else {
@@ -528,89 +430,96 @@
     [personalAccInfoCell.lb_goods_name sizeToFit];
     personalAccInfoCell.selectionStyle = UIAccessibilityTraitNone;
     personalAccInfoCell.lb_cell_number.text = IntToString(indexPath.row+1);
-    
-    if (tableView == self.infoAssetsTableView) {
-        if (!_isFiltered) {
-            self.data_TTTS = [PropertyInfoModel arrayOfModelsFromDictionaries:self.TTTS_data_array error:nil];
-        } else {
-            self.data_TTTS = [PropertyInfoModel arrayOfModelsFromDictionaries:self.data_FilterTTTS error:nil];
-        }
-        
-        PropertyInfoModel *propertyinfo = self.data_TTTS[indexPath.row];
-        
-        // title
-        personalAccInfoCell.title_goods_name.text = @"Tên hàng hóa:";
-        personalAccInfoCell.title_number.text = @"Số lượng:";
-        personalAccInfoCell.title_serial.text = @"Serial:";
-        personalAccInfoCell.lb_status.text = @"Trạng thái:";
-        
-        // value
-        personalAccInfoCell.lb_goods_name.text = propertyinfo.catMerName;
-        personalAccInfoCell.lb_number.text = IntToString(propertyinfo.count);
-        personalAccInfoCell.lb_serial.text = propertyinfo.serialNumber;
-        personalAccInfoCell.lb_status.text = propertyinfo.privateManagerName;
-        
-        personalAccInfoCell.lb_status.textColor = RGB(254, 94, 8);
-        
-        if (indexPath.row == self.TTTS_data_array.count - 1) {
-            [self loadmoreTableView];
-        }
-    } else if (tableView == self.bbbgAssetsTableView) {
-        if (!_isFiltered) {
-            self.data_BBBG = [BBBGAssetModel arrayOfModelsFromDictionaries:self.BBBG_data_array error:nil];
-        } else {
-            self.data_BBBG = [BBBGAssetModel arrayOfModelsFromDictionaries:self.data_FilterBBBG error:nil];
-        }
-        
-        BBBGAssetModel *bbbg = self.data_BBBG[indexPath.row];
-        
-        // title
-        personalAccInfoCell.title_goods_name.text = @"Mã BBBG:";
-        personalAccInfoCell.title_number.text = @"Ngày bàn giao:";
-        personalAccInfoCell.title_serial.text = @"Người bàn giao:";
-        personalAccInfoCell.lb_status.text = @"Trạng thái:";
-        
-        // value
-        personalAccInfoCell.lb_goods_name.text = bbbg.minuteHandOverCode;
-        
-        NSDate *date = [NSDate dateWithTimeIntervalSince1970: (bbbg.minuteHandOverDate/1000)];
-        NSDateFormatter *format = [NSDateFormatter new];
-        [format setDateFormat: @"dd/MM/yyyy"];
-        personalAccInfoCell.lb_number.text = [format stringFromDate:date];
-        
-        personalAccInfoCell.lb_serial.text = bbbg.employeeMinuteHandOVerName;
-        
-        switch (bbbg.status) {
-            case 0:
-            {
-                personalAccInfoCell.lb_status.text = @"Chưa xác nhận";
-                personalAccInfoCell.lb_status.textColor = RGB(254, 94, 8);
+    switch (self.switchScreen) {
+        case 0:
+        {
+            if (!_isFiltered) {
+                self.data_TTTS = [PropertyInfoModel arrayOfModelsFromDictionaries:self.TTTS_data_array error:nil];
+            } else {
+                self.data_TTTS = [PropertyInfoModel arrayOfModelsFromDictionaries:self.data_FilterTTTS error:nil];
             }
-                break;
-            case 1:
-            {
-                personalAccInfoCell.lb_status.text = @"Đã xác nhận";
-                personalAccInfoCell.lb_status.textColor = RGB(2, 127, 185);
+            
+            PropertyInfoModel *propertyinfo = self.data_TTTS[indexPath.row];
+            
+            // title
+            personalAccInfoCell.title_goods_name.text = @"Tên hàng hóa:";
+            personalAccInfoCell.title_number.text = @"Số lượng:";
+            personalAccInfoCell.title_serial.text = @"Serial:";
+            personalAccInfoCell.lb_status.text = @"Trạng thái:";
+            
+            // value
+            personalAccInfoCell.lb_goods_name.text = propertyinfo.catMerName;
+            personalAccInfoCell.lb_number.text = IntToString(propertyinfo.count);
+            personalAccInfoCell.lb_serial.text = propertyinfo.serialNumber;
+            personalAccInfoCell.lb_status.text = propertyinfo.privateManagerName;
+            
+            personalAccInfoCell.lb_status.textColor = RGB(254, 94, 8);
+            
+            if (indexPath.row == self.TTTS_data_array.count - 1) {
+                [self loadmoreTableView];
             }
-                break;
-            case 2:
-            {
-                personalAccInfoCell.lb_status.text = @"Bị từ chối";
-                personalAccInfoCell.lb_status.textColor = RGB(254, 8, 8);
-            }
-                break;
-            default:
-            {
-                personalAccInfoCell.lb_status.text = @"Không xác định";
-            }
-                break;
+            
         }
-        
-        if (indexPath.row == self.BBBG_data_array.count - 1) {
-            [self loadmoreTableView];
+            break;
+        case 1:
+        {
+            if (!_isFiltered) {
+                self.data_BBBG = [BBBGAssetModel arrayOfModelsFromDictionaries:self.BBBG_data_array error:nil];
+            } else {
+                self.data_BBBG = [BBBGAssetModel arrayOfModelsFromDictionaries:self.data_FilterBBBG error:nil];
+            }
+            
+            BBBGAssetModel *bbbg = self.data_BBBG[indexPath.row];
+            
+            // title
+            personalAccInfoCell.title_goods_name.text = @"Mã BBBG:";
+            personalAccInfoCell.title_number.text = @"Ngày bàn giao:";
+            personalAccInfoCell.title_serial.text = @"Người bàn giao:";
+            personalAccInfoCell.lb_status.text = @"Trạng thái:";
+            
+            // value
+            personalAccInfoCell.lb_goods_name.text = bbbg.minuteHandOverCode;
+            
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970: (bbbg.minuteHandOverDate/1000)];
+            NSDateFormatter *format = [NSDateFormatter new];
+            [format setDateFormat: @"dd/MM/yyyy"];
+            personalAccInfoCell.lb_number.text = [format stringFromDate:date];
+            
+            personalAccInfoCell.lb_serial.text = bbbg.employeeMinuteHandOVerName;
+            
+            switch (bbbg.status) {
+                case 0:
+                {
+                    personalAccInfoCell.lb_status.text = @"Chưa xác nhận";
+                    personalAccInfoCell.lb_status.textColor = RGB(254, 94, 8);
+                }
+                    break;
+                case 1:
+                {
+                    personalAccInfoCell.lb_status.text = @"Đã xác nhận";
+                    personalAccInfoCell.lb_status.textColor = RGB(2, 127, 185);
+                }
+                    break;
+                case 2:
+                {
+                    personalAccInfoCell.lb_status.text = @"Bị từ chối";
+                    personalAccInfoCell.lb_status.textColor = RGB(254, 8, 8);
+                }
+                    break;
+                default:
+                {
+                    personalAccInfoCell.lb_status.text = @"Không xác định";
+                }
+                    break;
+            }
+            
+            if (indexPath.row == self.BBBG_data_array.count - 1) {
+                [self loadmoreTableView];
+            }
         }
-    } else {
-        
+            break;
+        default:
+            break;
     }
     
     personalAccInfoCell.cell_view_detail.tag = indexPath.row;
@@ -640,20 +549,16 @@
     if ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable) {
         [[Common shareInstance] showErrorHUDWithMessage:@"Mất kết nối mạng" inView: self.view];
     } else {
-//        self.startTTTS = 0;
-//        self.startBBBG = 0;
+        self.startTTTS = 0;
+        self.startBBBG = 0;
         switch (self.switchScreen) {
             case 0:
 //                [self.TTTS_data_array removeAllObjects];
-                if(self.startTTTS < self.countTTTS){
-                    [self countDataTTTS];
-                }
+                [self countDataTTTS];
                 break;
             case 1:
 //                [self.BBBG_data_array removeAllObjects];
-                if(self.startBBBG < self.countBBBG){
-                    [self countDataBBBG];
-                }
+                [self countDataBBBG];
                 break;
             default:
                 break;
@@ -668,7 +573,7 @@
     switch (self.switchScreen) {
         case 0:
         {
-            if (self.startTTTS < self.countTTTS && self.isloadmoreTTTS == true) {
+            if (self.startTTTS + 20 < self.countTTTS && self.isloadmoreTTTS == true) {
                 self.startTTTS = self.startTTTS + 20;
                 [self getDataTTTS];
             } else {
@@ -678,7 +583,7 @@
             break;
         case 1:
         {
-            if (self.startBBBG < self.countBBBG && self.isloadmoreBBBG == true) {
+            if (self.startBBBG + 20 < self.countBBBG && self.isloadmoreBBBG == true) {
                 self.startBBBG = self.startBBBG + 20;
                 [self getDataBBBG];
             } else {
@@ -700,18 +605,8 @@
             self.searchview.searchBar.placeholder = LocalizedString(@"SearchSerial...");
             if (_isFiltered) {
                 self.total_record.text = IntToString(self.data_FilterTTTS.count);
-                if (self.data_FilterTTTS.count > 0) {
-                    self.noResultLabel.hidden = YES;
-                } else {
-                    self.noResultLabel.hidden = NO;
-                }
             } else {
                 self.total_record.text = IntToString(self.countTTTS);
-                if (self.countTTTS > 0) {
-                    self.noResultLabel.hidden = YES;
-                } else {
-                    self.noResultLabel.hidden = NO;
-                }
             }
 //            [self.infoAssetsTableView reloadData];
 
@@ -729,18 +624,8 @@
             self.searchview.searchBar.placeholder = LocalizedString(@"SearchCodeBBBG");
             if (_isFiltered) {
                 self.total_record.text = IntToString(self.data_FilterBBBG.count);
-                if (self.data_FilterBBBG.count > 0) {
-                    self.noResultLabel.hidden = YES;
-                } else {
-                    self.noResultLabel.hidden = NO;
-                }
             } else {
                 self.total_record.text = IntToString(self.countBBBG);
-                if (self.countBBBG > 0) {
-                    self.noResultLabel.hidden = YES;
-                } else {
-                    self.noResultLabel.hidden = NO;
-                }
             }
 //            [self.bbbgAssetsTableView reloadData];
             NSLog(@"XEM LAI FRAME NHE:%@", NSStringFromCGRect(self.bbbgAssetsTableView.frame));
@@ -770,7 +655,7 @@
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"PropertyDetails" bundle:nil];
             PropertyDetailsViewController *propertyDetails = (PropertyDetailsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"PropertyDetailsViewController"];
             propertyDetails.isStatus = propertyinfo.stt;
-            propertyDetails.typeKTTS = 1;
+            
             propertyDetails.value_commodity_code = propertyinfo.catMerCode;
             propertyDetails.value_commodity_name = propertyinfo.catMerName;
             propertyDetails.value_unit = propertyinfo.unitName;
@@ -824,7 +709,6 @@
             
             propertyDetails.id_BBBG_detail = IntToString(bbbgModel.minuteHandOverId);
             propertyDetails.isStatus = bbbgModel.status;
-            propertyDetails.bbbgModelAsset = bbbgModel;
             
             [self.navigationController pushViewController:propertyDetails animated:YES];
         }

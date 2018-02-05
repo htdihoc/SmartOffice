@@ -16,8 +16,5 @@
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property(nonatomic, strong)UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UILabel *errLoadWebView;
-@property (weak, nonatomic) IBOutlet UIButton *refressBtn;
-@property (weak, nonatomic) IBOutlet UIView *viewRefressBtn;
-@property (weak, nonatomic) IBOutlet UIView *viewNoNetWork;
 
 @end

@@ -22,7 +22,6 @@
 @interface SurveyViewController () <UITableViewDelegate, UITableViewDataSource, TTNS_BaseNavViewDelegate, SOErrorViewDelegate> {
     SurveyListModel *surveylistModel;
     NSMutableArray *surveyList;
-    NSMutableArray *timeSurveyList;
     //    UIRefreshControl *refreshControl;
     SOErrorView *soErrorView;
 }
@@ -38,7 +37,6 @@
     
     self.backTitle = LocalizedString(@"KMORE_SURVEY");
     surveyList = [NSMutableArray new];
-    timeSurveyList = [NSMutableArray new];
     [self initErrorView];
     [self getDataSurvey];
     
@@ -61,7 +59,7 @@
 - (void) getDataSurvey {
     [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"username": @"102026",
+                                @"username": @"169202",
                                 @"token": @"dgr34g",
                                 @"start": IntToString(0),
                                 @"limit": IntToString(20)
@@ -69,13 +67,8 @@
     [SurveyProcessor getDataSurvey:parameter handle:^(id result, NSString *error) {
         [[Common shareInstance] dismissCustomHUD];
         NSArray *array = result[@"result"];
-
-        NSMutableArray *sortedArray = [NSMutableArray new];
-        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:NO];
-        sortedArray = [NSMutableArray arrayWithArray:[array sortedArrayUsingDescriptors:@[sort]]];
-
-        surveyList = [SurveyListModel arrayOfModelsFromDictionaries:sortedArray error:nil];
-        
+//        surveyList = (NSMutableArray *)[surveyList arrayByAddingObjectsFromArray:array];
+        surveyList = [SurveyListModel arrayOfModelsFromDictionaries:array error:nil];
         if (surveyList.count > 0 ) {
             [self.surveyTableView reloadData];
             if (self.iPad == YES) {
@@ -97,7 +90,7 @@
 - (void) getDataSurveyPullRefress {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"username": @"102026",
+                                @"username": @"169202",
                                 @"token": @"dgr34g",
                                 @"start": IntToString(0),
                                 @"limit": IntToString(20)
@@ -240,7 +233,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    return 80;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -257,6 +250,11 @@
 
 //Swipe Cell
 - (NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    SOTableViewRowAction *reminderAction = [SOTableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:LocalizedString(@"KMORE_REMINDER") icon:[UIImage imageNamed:@"reminderImage.png"] color:RGB(243, 142, 49) handler:^(UITableViewRowAction* action, NSIndexPath* indexPath) {
+        [self pushRemider];
+    }];
+    
     SurveyListModel *surveyModel = surveyList[indexPath.row];
     NSDate *now = [NSDate date];
     
@@ -273,9 +271,6 @@
         case NSOrderedAscending:
             if (self.iPad == NO) {
                 if (surveyModel.status == true) {
-                    SOTableViewRowAction *reminderAction = [SOTableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:LocalizedString(@"KMORE_REMINDER") icon:[UIImage imageNamed:@"reminderImage.png"] color:RGB(243, 142, 49) handler:^(UITableViewRowAction* action, NSIndexPath* indexPath) {
-                        [self pushRemider];
-                    }];
                     return @[reminderAction];
                 } else {
                     return @[];

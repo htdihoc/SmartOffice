@@ -122,8 +122,9 @@
         if (self.employee != nil) {
             self.currentUinitLabel.text = [NSString stringWithFormat:@"%@%@ %@", @"*" ,LocalizedString(@"PMTC_CURRENT_UNIT"), self.employee.currencyCode];
             NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-            [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
-            self.currentCodeLabel.text = [numberFormatter stringFromNumber:[NSNumber numberWithInteger:self.employee.debtAmount]];
+            [numberFormatter setNumberStyle: kCFNumberFormatterDecimalStyle];
+            NSString *debt = [numberFormatter stringFromNumber:[NSNumber numberWithInteger:self.employee.debtAmount]];
+            self.currentCodeLabel.text = debt;
             soErrorView.hidden = YES;
         } else {
             [self addNoDataView];
@@ -166,7 +167,6 @@
     self.pmtcTableView.hidden = YES;
     self.HeaderView.hidden = YES;
     [[Common shareInstance] dismissCustomHUD];
-    [[Common shareInstance] showErrorHUDWithMessage:@"Mất kết nối mạng" inView: self.view];
 }
 
 - (NSString *)convertDate:(NSString *)inDate {
@@ -234,7 +234,7 @@
                 }
                 dealHistoryCell.moneyTitleLabel.text = [NSString stringWithFormat:@"%@:", LocalizedString(@"PMTC_NO_MONEY")];
                         NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-                [numberFormatter setNumberStyle: NSNumberFormatterCurrencyStyle];
+                [numberFormatter setNumberStyle: kCFNumberFormatterDecimalStyle];
                         NSString *debtNumberString = [numberFormatter stringFromNumber:[NSNumber numberWithInteger:model.amount]];
                 dealHistoryCell.moneyNumberLabel.text = debtNumberString;
                 } else {

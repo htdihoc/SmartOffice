@@ -8646,8 +8646,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.itsol.client.SmartOffice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be9ef654-daeb-4bd4-af86-4fcbe742127f";
-				PROVISIONING_PROFILE_SPECIFIER = provisionAdhocSmartOffice;
+				PROVISIONING_PROFILE = "61808670-66ae-4293-8072-14e7d8489598";
+				PROVISIONING_PROFILE_SPECIFIER = SmartAdhocHiep;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -8673,8 +8673,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.itsol.client.SmartOffice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "be9ef654-daeb-4bd4-af86-4fcbe742127f";
-				PROVISIONING_PROFILE_SPECIFIER = provisionAdhocSmartOffice;
+				PROVISIONING_PROFILE = "61808670-66ae-4293-8072-14e7d8489598";
+				PROVISIONING_PROFILE_SPECIFIER = SmartAdhocHiep;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -110,7 +110,7 @@
 - (void) TTTS {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"type": @"1"
                                 };
     [KTTSProcessor postCountDataTTTS:parameter handle:^(id result, NSString *error) {
@@ -128,7 +128,7 @@
 - (void) BBBG {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"type": @"2"
                                 };
     [KTTSProcessor postCountDataTTTS:parameter handle:^(id result, NSString *error) {
@@ -147,7 +147,7 @@
 - (void) getDataTTTS {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"start": IntToString(_startTTTS),
                                 @"keyword": _search_view.searchBar.text,
                                 @"limit": IntToString(_limit)
@@ -170,7 +170,7 @@
 - (void) getDataBBBG {
 //    [[Common shareInstance] showCustomHudInView:self.view];
     NSDictionary *parameter = @{
-                                @"employeeId": @"102026",
+                                @"employeeId": @"169202",
                                 @"start": IntToString(self.startBBBG),
                                 @"keyword": _search_view.searchBar.text,
                                 @"limit": IntToString(self.limit)

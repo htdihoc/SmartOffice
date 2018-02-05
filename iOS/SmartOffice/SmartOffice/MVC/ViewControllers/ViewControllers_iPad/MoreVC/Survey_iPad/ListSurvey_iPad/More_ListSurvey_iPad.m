@@ -50,7 +50,7 @@
 - (void) countData {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary *parameter = @{
-                                @"username": @"102026",
+                                @"username": @"169202",
                                 @"password": @"123456a@"
                                 };
     [SurveyProcessor getCountDataSurvey:parameter handle:^(id result, NSString *error) {
@@ -65,7 +65,7 @@
 
 - (void) getDataSurvey {
     NSDictionary *parameter = @{
-                                @"username": @"102026",
+                                @"username": @"169202",
                                 @"token": @"dgr34g",
                                 @"start": IntToString(0),
                                 @"limit": IntToString(self.countSurvey)

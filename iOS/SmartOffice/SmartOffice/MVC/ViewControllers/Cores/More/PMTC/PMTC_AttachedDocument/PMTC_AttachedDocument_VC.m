@@ -38,7 +38,7 @@
     self.tableView.dataSource = self;
     self.search_view.delegate = self;
     documentType = [NSMutableArray new];
-    [self getNumberDocmentType];
+    [self getNumberDocmentTypeWithLoading:YES];
     [self setupUI];
     [self checkIpad];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
@@ -111,17 +111,21 @@
 }
 
 - (void)didRefreshOnErrorView:(SOErrorView *)errorView {
-    [self getNumberDocmentType];
+    [self getNumberDocmentTypeWithLoading:YES];
 }
 
 - (void) dismissKeyboard {
     [self.view endEditing:YES];
 }
 
-- (void) getNumberDocmentType {
-    [[Common shareInstance] showCustomHudInView:self.view];
+- (void) getNumberDocmentTypeWithLoading : (BOOL) hasLoading {
+    if (hasLoading) {
+        [[Common shareInstance] showCustomHudInView:self.view];
+    }
     [PMTCProcessor postPMTC_getDocumentCategory:nil handle:^(id result, NSString *error) {
-        [[Common shareInstance] dismissCustomHUD];
+        if (hasLoading) {
+            [[Common shareInstance] dismissCustomHUD];
+        }
         NSArray *array = result;
         [documentType addObjectsFromArray:array];
         documentType = [DocumentTypeListModel arrayOfModelsFromDictionaries:array error:nil];
@@ -210,7 +214,7 @@
 
 - (void)reloadDataTableView {
     [documentType removeAllObjects];
-    [self getNumberDocmentType];
+    [self getNumberDocmentTypeWithLoading:NO];
     [self.tableView reloadData];
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

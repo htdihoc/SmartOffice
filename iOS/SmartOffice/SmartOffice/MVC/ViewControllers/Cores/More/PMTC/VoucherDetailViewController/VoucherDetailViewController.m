@@ -39,6 +39,7 @@
     isCheck = NO;
     self.backTitle = LocalizedString(@"PMTC_VOUCHER_DETAIL");
     [self.updateInvoiceButton setTitle:LocalizedString(@"PMTC_UPDATE") forState:UIControlStateNormal];
+    [self updateInvoiceButtonWithChanged:NO];
     self.heightCollection = 200;
     self.array_image_Item = [NSMutableArray new];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
@@ -106,7 +107,7 @@
         if (imagePath == nil) {
             self.fileName = [NSString stringWithFormat:@"%@%@", [self randomStringWithLength:8], @".png"];
         }
-
+        [self updateInvoiceButtonWithChanged:YES];
         [self.imageCollectionView reloadData];
     } else{
         NSLog(@"Selected photo is NULL");
@@ -361,5 +362,15 @@
        return [self checkHaveImage];
     }
     
+}
+
+- (void) updateInvoiceButtonWithChanged:(BOOL) hasChanged {
+    if (hasChanged) {
+        _updateInvoiceButton.alpha = 1.0;
+        _updateInvoiceButton.enabled = YES;
+    } else {
+        _updateInvoiceButton.alpha = 0.5;
+        _updateInvoiceButton.enabled = NO;
+    }
 }
 @end

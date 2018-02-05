@@ -36,16 +36,11 @@
     
     self.search_view.searchBar.placeholder = LocalizedString(@"SearchSerial...");
     
-    self.nameBBBG1.text = self.bbbgModelAsset.minuteHandOverCode;
-    self.nameBBBG2.text = self.bbbgModelAsset.minuteHandOverCode;
-    self.reasonBBBG2.text = [NSString stringWithFormat:@"Lý do : %@", self.bbbgModelAsset.description];
-    
     switch (self.isStatus) {
         case 0:
         {
             // đã bàn giao, chưa xác nhận
             self.height_asset_name_view.constant = 0;
-            self.statusBBBG2.text = @"Trạng thái : Đã bàn giao, chưa xác nhận";
         }
             break;
         case 1:
@@ -53,7 +48,6 @@
             // đã xác nhận
             self.height_button_view.constant = 0;
             self.height_refuse_view.constant = 0;
-            self.statusBBBG2.text = @"Trạng thái : Đã xác nhận";
         }
             break;
         case 2:
@@ -61,7 +55,6 @@
             // đã từ chối
             self.height_button_view.constant = 0;
             self.height_asset_name_view.constant = 0;
-            self.statusBBBG2.text = @"Trạng thái : Bị từ chối";
         }
             break;
         default:
@@ -235,7 +228,7 @@
     PropertyDetailsViewController *propertyDetails = (PropertyDetailsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"PropertyDetailsViewController"];
     
     propertyDetails.isStatus = detailBBBGModel.stt;
-    propertyDetails.typeKTTS = 2;
+    
     propertyDetails.value_commodity_code = detailBBBGModel.catMerCode;
     propertyDetails.value_commodity_name = detailBBBGModel.catMerName;
     propertyDetails.value_unit = detailBBBGModel.unitName;

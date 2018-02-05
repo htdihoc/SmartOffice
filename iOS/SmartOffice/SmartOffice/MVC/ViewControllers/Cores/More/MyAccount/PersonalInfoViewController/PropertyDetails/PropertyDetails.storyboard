@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="HelveticaNeue.ttc">
-            <string>HelveticaNeue</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Property Details View Controller-->
         <scene sceneID="OqE-e5-m5w">
@@ -95,12 +90,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="btnCancel" destination="YDq-Ub-mBZ" id="Kii-eq-MG1"/>
                         <outlet property="btnCancelOrConfirm" destination="Lsu-SS-eCZ" id="xEq-E1-fcy"/>
-                        <outlet property="btnConfirm" destination="rYK-mC-2x5" id="dos-mZ-DGK"/>
-                        <outlet property="hightBtnCancel" destination="D4X-zL-LDB" id="M5K-cB-0QE"/>
-                        <outlet property="hightBtnCancelOrConfirm" destination="ZpL-gp-GJd" id="S0W-zL-Nmp"/>
-                        <outlet property="hightBtnConfirm" destination="HOd-0Y-FLS" id="mqU-Yb-cEZ"/>
                         <outlet property="propertyDetailsTableView" destination="HOC-9T-rcH" id="mP7-6m-VwW"/>
                     </connections>
                 </viewController>
